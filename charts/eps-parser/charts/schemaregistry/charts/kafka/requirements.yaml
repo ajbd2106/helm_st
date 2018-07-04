@@ -1,0 +1,4 @@
+dependencies:
+- name: zookeeper
+  version: 0.3.0
+  repository: http://10.44.149.56/

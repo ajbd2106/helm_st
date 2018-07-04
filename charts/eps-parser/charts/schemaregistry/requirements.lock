@@ -1,0 +1,6 @@
+dependencies:
+- name: kafka
+  repository: http://10.44.149.56/
+  version: 0.1.2
+digest: sha256:269d87d8ba16acea7340fc2190f2a8023f858fc1d1948a904af04b5d4fbd4b71
+generated: 2017-11-08T16:26:42.516107119Z

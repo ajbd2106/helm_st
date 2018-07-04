@@ -1,0 +1,20 @@
+# Default values for Event-Parser.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+Image: "armdocker.rnd.ericsson.se/aia_releases/aia/event-parser"
+ImageTag: "1.5.4" 
+Port: "21000"
+NodePort: "32083"
+application_Id: "apeps"
+application_Home: "/ericsson/apeps"
+flow_Directory: "/mnt/apeps/"
+instrumentation_On: "true"
+instrumentation_Method: "CSV"
+instrumentation_File_Location: "/ericsson/apeps/reporting"
+logback_File: "/ericsson/apeps/etc/logback.xml"
+log_Dir: "/ericsson/apeps/log"
+heap: "1500M"
+heap_Max: "1500M"
+schemaregistry:
+  Port: "8081"

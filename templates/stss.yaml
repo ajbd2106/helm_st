@@ -1,0 +1,73 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+    name: "{{ printf "st-%s" .Release.Name | trunc 24 }}"
+    annotations:
+      helm.sh/created: {{.Release.Time.Seconds | quote }}
+    labels:
+      heritage: {{.Release.Service | quote }}
+      release: {{.Release.Name | quote }}
+      chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+      component: "{{ printf "st-%s" .Release.Name  | trunc 24  }}"
+spec:
+  serviceName: "{{ printf "st-%s-0" .Release.Name | trunc 24 }}"
+  replicas: {{.Values.replicaCount}}
+  template:
+    metadata:
+      labels:
+        component: "{{ printf "st-%s-0" .Release.Name | trunc 24 }}"
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: stream-terminator
+        image: "{{ .Values.Image}}:{{ .Values.ImageTag }}"
+        env:
+        - name: MAX_HEAP_SIZE_GB
+          value: {{ .Values.heap | quote }}
+        - name: APPLICATION_ID
+          value: {{ .Values.application_Id | quote  }}
+        - name: APPLICATION_HOME
+          value: {{ .Values.application_Home | quote }}
+        - name: GLOBAL_CONFIG
+          value: {{ .Values.global_Config | quote }}
+        - name: LOG_DIR
+          value: {{ .Values.log_Dir | quote }}
+        - name: LOG_LEVEL
+          value: {{ .Values.log_Level | quote }}
+        - name: CONF_FILE
+          value: {{ .Values.conf_File | quote }}
+        - name: INI_FILE
+          value: {{ .Values.ini_File | quote }}
+        - name: INTEGRATION_POINT_NAME
+          value: {{ .Values.integration_Point_Name | quote }}
+        - name: INTEGRATION_POINT_URI
+          value: {{ .Values.integration_Point_Uri | quote }}
+        - name: NUMBER_PARTITIONS
+          value: {{ .Values.number_partitions | quote }}
+        - name: KAFKA_THREADS
+          value: {{ .Values.kafka_threads | quote }}
+        - name: STREAM_TERMINATOR_KAFKASTORE_CONNECTION_URL
+          value: {{ printf "zk-csvc-%s:2181" .Release.Name | quote }}
+        - name: STREAM_TERMINATOR_HOST_NAME
+          value: "{{ printf "st-%s-0.schema.default.svc.cluster.local" .Release.Name | trunc 24 }}"
+        - name: STREAM_TERMINATOR_LISTENERS
+          value: "{{ printf "http://0.0.0.0:%s" .Values.Port }}"
+        ports:
+        - containerPort: {{ .Values.streamPort }}
+          name: streamport
+        - containerPort: {{ .Values.jmxPort }}
+          name: jmxport
+        volumeMounts:
+        - name: nfs
+          mountPath: /etc/ericsson/conf/ipl
+        livenessProbe:
+          exec:
+            command:
+              - sh
+              - /opt/ericsson/pmstream/terminator-standalone-kafka/healthcheck.sh
+          initialDelaySeconds: 30
+          periodSeconds: 10
+      volumes:
+      - name: nfs
+        persistentVolumeClaim:
+          claimName: nfs

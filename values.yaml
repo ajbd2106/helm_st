@@ -1,0 +1,22 @@
+# Default values for stream-terminator.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+Image: "armdocker.rnd.ericsson.se/aia_releases/aia/event-stream-terminator"
+ImageTag: "2.21.9"
+streamPort: 10101
+streamPort_Nodeport: 31100
+jmxPort: 21001
+jmxPort_Nodeport: 31001
+heap: "1500M"
+integration_Point_Name: "RAW_PUBLISHER_INTEGRATION_POINT.json"
+integration_Point_Uri: "local:///etc/ericsson/conf/ipl"
+application_id: "pmstream"
+application_Home: "/opt/ericsson/pmstream"
+global_Config: "/ericsson/tor/data/global.properties"
+log_Dir: "/var/ericsson/log/pmstream"
+log_Level: "INFO"
+conf_File: "/mnt/pmstream/default-pmstream.conf"
+ini_File: "/mnt/pmstream/default-pmstream.ini"
+kafka_threads: 4
+number_partitions: 1

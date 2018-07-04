@@ -1,0 +1,6 @@
+dependencies:
+- name: schemaregistry
+  repository: http://10.44.149.56/
+  version: 0.1.0
+digest: sha256:1dfd9f1d62367a9b8d543ef9d11e39e455cc3b150f7343d544ac223c066c7c4a
+generated: 2017-11-14T23:37:25.474147535Z

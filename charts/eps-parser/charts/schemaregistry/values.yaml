@@ -1,0 +1,7 @@
+# Default values for helm-schema-registry.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+replicaCount: 1
+Image: "armdocker.rnd.ericsson.se/aia_releases/schemaregistry:v3.2.1"
+Port: "8081"
+NodePort: "32081"

@@ -1,0 +1,18 @@
+Name: "kafka"
+Replicas: 3
+Image: "armdocker.rnd.ericsson.se/aia_releases/kafka"
+ImageTag: "v0.10.2.1"
+ImagePullPolicy: "Always"
+Cpu: "100m"
+Memory: "512Mi"
+MaxCpu: "200m"
+MaxMemory: "1024Mi"
+Storage: "15Gi"
+DataDirectory: "/opt/kafka/data"
+Component: "kafka"
+NodePort: 32093
+
+
+zookeeper:
+  Name: "zk"
+  Component: "zk"

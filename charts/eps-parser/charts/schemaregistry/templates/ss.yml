@@ -1,0 +1,32 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+    name: "{{ printf "sr-%s" .Release.Name | trunc 24 }}"
+    annotations:
+      helm.sh/created: {{.Release.Time.Seconds | quote }}
+    labels:
+      heritage: {{.Release.Service | quote }}
+      release: {{.Release.Name | quote }}
+      chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+      component: "{{ printf "sr-%s" .Release.Name  | trunc 24  }}"
+spec:
+  serviceName: "{{ printf "sr-%s-0" .Release.Name | trunc 24 }}"
+  replicas: {{.Values.replicaCount}}
+  template:
+    metadata:
+      labels:
+        component: "{{ printf "sr-%s-0" .Release.Name | trunc 24 }}"
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: schema-registry
+        image: {{.Values.Image}}
+        env:
+        - name: SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL
+          value: "{{ printf "zk-csvc-%s:2181" .Release.Name }}"
+        - name: SCHEMA_REGISTRY_HOST_NAME
+          value: "{{ printf "sr-%s-0.schema.default.svc.cluster.local" .Release.Name | trunc 24 }}"
+        - name: SCHEMA_REGISTRY_LISTENERS
+          value: "{{ printf "http://0.0.0.0:%s" .Values.Port }}"
+        ports:
+        - containerPort: {{.Values.Port}}

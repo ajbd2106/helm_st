@@ -1,0 +1,6 @@
+dependencies:
+- name: eps-parser
+  repository: http://10.44.149.56/
+  version: 0.1.0
+digest: sha256:eaaa98b7c3f65bf5f5267dbb6b4db80efb65c42532bf268656a6fde46d8ff7e8
+generated: 2017-11-08T16:28:25.169023246Z

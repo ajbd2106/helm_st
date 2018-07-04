@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ printf "st-%s" .Release.Name }}"
+spec:
+  type: NodePort
+  ports:
+  - port: {{ .Values.streamPort }}
+    nodePort: {{ .Values.streamPort_Nodeport }}
+    name: streamport
+  - port: {{ .Values.jmxPort }}
+    nodePort: {{ .Values.jmxPort_Nodeport }}
+    name: jmxport
+  selector:
+    component: "{{ printf "st-%s-0" .Release.Name }}"

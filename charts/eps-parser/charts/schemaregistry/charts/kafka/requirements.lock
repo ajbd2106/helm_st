@@ -1,0 +1,6 @@
+dependencies:
+- name: zookeeper
+  repository: http://10.44.149.56/
+  version: 0.3.0
+digest: sha256:90b0aac155477983ab6f8fe8ab4b455bdb30196ce15d478a1257ce11b1469221
+generated: 2017-11-08T16:16:35.346427708Z
